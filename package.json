@@ -1,0 +1,36 @@
+{
+  "name": "ai-form-creator",
+  "version": "1.0.0",
+  "description": "AI-powered form generation system for DynForm framework",
+  "main": "src/main.js",
+  "scripts": {
+    "generate-project": "node generate-project-files.js",
+    "start": "node src/main.js",
+    "test": "npm run test:unit && npm run test:integration",
+    "test:unit": "echo 'Unit tests not yet implemented'",
+    "test:integration": "echo 'Integration tests not yet implemented'",
+    "lint": "echo 'Linting not yet configured'",
+    "dev": "nodemon src/main.js"
+  },
+  "keywords": [
+    "ai",
+    "form-generator",
+    "dynform",
+    "api-integration",
+    "context-engineering"
+  ],
+  "author": "AI Form Creator Team",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^1.6.0",
+    "form-data": "^4.0.0",
+    "dotenv": "^16.3.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.0",
+    "jest": "^29.7.0"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}

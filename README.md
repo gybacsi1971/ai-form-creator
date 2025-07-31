@@ -1,296 +1,382 @@
-# Context Engineering Template
+# AI Form Creator
 
-A comprehensive template for getting started with Context Engineering - the discipline of engineering context for AI coding assistants so they have the information necessary to get the job done end to end.
+An intelligent form generation system that converts natural language instructions into dynamic forms for the DynForm framework. The system automatically generates DynForm JSON descriptors and submits them to the Creator API.
 
-> **Context Engineering is 10x better than prompt engineering and 100x better than vibe coding.**
+> **Transform simple text descriptions into fully functional web forms with AI assistance.**
 
 ## 🚀 Quick Start
 
 ```bash
-# 1. Clone this template
-git clone https://github.com/coleam00/Context-Engineering-Intro.git
-cd Context-Engineering-Intro
+# 1. Clone this repository
+git clone https://github.com/your-org/ai-form-creator.git
+cd ai-form-creator
 
-# 2. Set up your project rules (optional - template provided)
-# Edit CLAUDE.md to add your project-specific guidelines
+# 2. Set up environment variables
+cp .env.example .env
+# Edit .env with your Creator API credentials
 
-# 3. Add examples (highly recommended)
-# Place relevant code examples in the examples/ folder
+# 3. Install dependencies
+npm install
 
-# 4. Create your initial feature request
-# Edit INITIAL.md with your feature requirements
+# 4. Test the system
+node examples/test-form-generation.js
 
-# 5. Generate a comprehensive PRP (Product Requirements Prompt)
-# In Claude Code, run:
-/generate-prp INITIAL.md
-
-# 6. Execute the PRP to implement your feature
-# In Claude Code, run:
-/execute-prp PRPs/your-feature-name.md
+# 5. Generate a form from natural language
+node src/create-form.js "Create a customer registration form with name, email, phone, and company fields"
 ```
+
+## 🎯 What This System Does
+
+1. **Natural Language Processing**: Converts user instructions into structured form requirements
+2. **DynForm Generation**: Creates valid DynForm JSON following all schema rules and conventions  
+3. **Creator API Integration**: Automatically submits forms with proper authentication and formatting
+4. **Complete Workflow**: Provides edit and view URLs for immediate form usage
 
 ## 📚 Table of Contents
 
-- [What is Context Engineering?](#what-is-context-engineering)
-- [Template Structure](#template-structure)
-- [Step-by-Step Guide](#step-by-step-guide)
-- [Writing Effective INITIAL.md Files](#writing-effective-initialmd-files)
-- [The PRP Workflow](#the-prp-workflow)
-- [Using Examples Effectively](#using-examples-effectively)
-- [Best Practices](#best-practices)
+- [System Architecture](#system-architecture)
+- [DynForm Integration](#dynform-integration)
+- [Creator API Setup](#creator-api-setup)
+- [Usage Examples](#usage-examples)
+- [Development Guide](#development-guide)
+- [API Reference](#api-reference)
+- [Troubleshooting](#troubleshooting)
 
-## What is Context Engineering?
+## System Architecture
 
-Context Engineering represents a paradigm shift from traditional prompt engineering:
+The AI Form Creator follows a three-stage pipeline architecture:
 
-### Prompt Engineering vs Context Engineering
+### 1. Natural Language Processing
+- **Input**: User instructions in plain text
+- **Processing**: Extract form structure, field types, and validation requirements
+- **Output**: Structured form specification
 
-**Prompt Engineering:**
-- Focuses on clever wording and specific phrasing
-- Limited to how you phrase a task
-- Like giving someone a sticky note
+### 2. DynForm Generation
+- **Input**: Structured form specification
+- **Processing**: Generate compliant DynForm JSON following all schema rules
+- **Output**: Valid DynForm descriptor ready for submission
 
-**Context Engineering:**
-- A complete system for providing comprehensive context
-- Includes documentation, examples, rules, patterns, and validation
-- Like writing a full screenplay with all the details
+### 3. Creator API Integration
+- **Input**: DynForm JSON descriptor
+- **Processing**: OAuth authentication and multipart form submission
+- **Output**: Deployed form with edit and view URLs
 
-### Why Context Engineering Matters
-
-1. **Reduces AI Failures**: Most agent failures aren't model failures - they're context failures
-2. **Ensures Consistency**: AI follows your project patterns and conventions
-3. **Enables Complex Features**: AI can handle multi-step implementations with proper context
-4. **Self-Correcting**: Validation loops allow AI to fix its own mistakes
-
-## Template Structure
+### Key Components Interaction
 
 ```
-context-engineering-intro/
-├── .claude/
-│   ├── commands/
-│   │   ├── generate-prp.md    # Generates comprehensive PRPs
-│   │   └── execute-prp.md     # Executes PRPs to implement features
-│   └── settings.local.json    # Claude Code permissions
-├── PRPs/
-│   ├── templates/
-│   │   └── prp_base.md       # Base template for PRPs
-│   └── EXAMPLE_multi_agent_prp.md  # Example of a complete PRP
-├── examples/                  # Your code examples (critical!)
-├── CLAUDE.md                 # Global rules for AI assistant
-├── INITIAL.md               # Template for feature requests
-├── INITIAL_EXAMPLE.md       # Example feature request
-└── README.md                # This file
+User Instructions → FormGenerator → CreatorAPIClient → Deployed Form
+       ↓              ↓               ↓
+   Text Analysis → JSON Generation → API Submission
 ```
 
-This template doesn't focus on RAG and tools with context engineering because I have a LOT more in store for that soon. ;)
+## DynForm Integration
 
-## Step-by-Step Guide
+The system generates forms compatible with the DynForm framework, following strict schema requirements:
 
-### 1. Set Up Global Rules (CLAUDE.md)
-
-The `CLAUDE.md` file contains project-wide rules that the AI assistant will follow in every conversation. The template includes:
-
-- **Project awareness**: Reading planning docs, checking tasks
-- **Code structure**: File size limits, module organization
-- **Testing requirements**: Unit test patterns, coverage expectations
-- **Style conventions**: Language preferences, formatting rules
-- **Documentation standards**: Docstring formats, commenting practices
-
-**You can use the provided template as-is or customize it for your project.**
-
-### 2. Create Your Initial Feature Request
-
-Edit `INITIAL.md` to describe what you want to build:
-
-```markdown
-## FEATURE:
-[Describe what you want to build - be specific about functionality and requirements]
-
-## EXAMPLES:
-[List any example files in the examples/ folder and explain how they should be used]
-
-## DOCUMENTATION:
-[Include links to relevant documentation, APIs, or MCP server resources]
-
-## OTHER CONSIDERATIONS:
-[Mention any gotchas, specific requirements, or things AI assistants commonly miss]
+### Project Structure
+```
+ai-form-creator/
+├── src/
+│   ├── form-generator.js     # Core form generation logic
+│   ├── creator-api.js        # Creator API client
+│   ├── validators.js         # Schema validation utilities
+│   └── main.js              # CLI interface
+├── docs/
+│   ├── formMCP.md           # Complete DynForm schema guide
+│   └── SendToCreatorAPI.md  # API integration instructions
+├── examples/
+│   └── app-new-form.json    # Employee onboarding form sample
+├── tests/
+│   ├── form-generation.test.js
+│   └── api-integration.test.js
+└── .env.example             # Environment configuration template
 ```
 
-**See `INITIAL_EXAMPLE.md` for a complete example.**
+### DynForm Schema Compliance
 
-### 3. Generate the PRP
+- **Field Naming**: UPPERCASE with underscores (e.g., `CUSTOMER_NAME`, `EMAIL_ADDRESS`)
+- **Connection Fields**: ID prefix for relationships (e.g., `ID_CUSTOMER_TYPE`)
+- **Form Metadata**: Required fields include `formName`, `formCode`, `idSubsystem`, `mainTable`
+- **New Form Settings**: `mainTable: "-generate-"` and `url: null` for automatic generation
 
-PRPs (Product Requirements Prompts) are comprehensive implementation blueprints that include:
+## Creator API Setup
 
-- Complete context and documentation
-- Implementation steps with validation
-- Error handling patterns
-- Test requirements
+### 1. Environment Configuration
 
-They are similar to PRDs (Product Requirements Documents) but are crafted more specifically to instruct an AI coding assistant.
-
-Run in Claude Code:
-```bash
-/generate-prp INITIAL.md
-```
-
-**Note:** The slash commands are custom commands defined in `.claude/commands/`. You can view their implementation:
-- `.claude/commands/generate-prp.md` - See how it researches and creates PRPs
-- `.claude/commands/execute-prp.md` - See how it implements features from PRPs
-
-The `$ARGUMENTS` variable in these commands receives whatever you pass after the command name (e.g., `INITIAL.md` or `PRPs/your-feature.md`).
-
-This command will:
-1. Read your feature request
-2. Research the codebase for patterns
-3. Search for relevant documentation
-4. Create a comprehensive PRP in `PRPs/your-feature-name.md`
-
-### 4. Execute the PRP
-
-Once generated, execute the PRP to implement your feature:
+Create a `.env` file with your Creator API credentials:
 
 ```bash
-/execute-prp PRPs/your-feature-name.md
+CREATOR_URI=https://creator.gy-dev.dev.spartancode.hu
+CREATOR_TOKEN_URL=https://auth.dev.spartancode.hu/auth/realms/spartan/protocol/openid-connect/token
+CREATOR_AUTH_BASIC=YXBpLXNlcnZpY2UtY2xpZW50OkRwdWRqYjlrRnlaOW1sSktMV0daVTBaQ1ZPbjc5aGYw
 ```
 
-The AI coding assistant will:
-1. Read all context from the PRP
-2. Create a detailed implementation plan
-3. Execute each step with validation
-4. Run tests and fix any issues
-5. Ensure all success criteria are met
+### 2. Authentication Flow
 
-## Writing Effective INITIAL.md Files
+The system uses OAuth 2.0 client credentials flow:
 
-### Key Sections Explained
+1. **Token Request**: POST to token URL with Basic auth
+2. **Form Submission**: POST form data with Bearer token
+3. **Response Parsing**: Extract form ID and URLs
 
-**FEATURE**: Be specific and comprehensive
-- ❌ "Build a web scraper"
-- ✅ "Build an async web scraper using BeautifulSoup that extracts product data from e-commerce sites, handles rate limiting, and stores results in PostgreSQL"
+**Important**: Creator API requires multipart/form-data, not JSON!
 
-**EXAMPLES**: Leverage the examples/ folder
-- Place relevant code patterns in `examples/`
-- Reference specific files and patterns to follow
-- Explain what aspects should be mimicked
+## Usage Examples
 
-**DOCUMENTATION**: Include all relevant resources
-- API documentation URLs
-- Library guides
-- MCP server documentation
-- Database schemas
+### Basic Form Creation
 
-**OTHER CONSIDERATIONS**: Capture important details
-- Authentication requirements
-- Rate limits or quotas
-- Common pitfalls
-- Performance requirements
+```javascript
+const AIFormCreator = require('./src/main');
 
-## The PRP Workflow
+const creator = new AIFormCreator();
 
-### How /generate-prp Works
+// Create a simple contact form
+const result = await creator.createForm(`
+  Create a contact form with the following fields:
+  - Full name (required text field)
+  - Email address (required email field)
+  - Phone number (optional text field)
+  - Message (required multi-line text)
+`);
 
-The command follows this process:
-
-1. **Research Phase**
-   - Analyzes your codebase for patterns
-   - Searches for similar implementations
-   - Identifies conventions to follow
-
-2. **Documentation Gathering**
-   - Fetches relevant API docs
-   - Includes library documentation
-   - Adds gotchas and quirks
-
-3. **Blueprint Creation**
-   - Creates step-by-step implementation plan
-   - Includes validation gates
-   - Adds test requirements
-
-4. **Quality Check**
-   - Scores confidence level (1-10)
-   - Ensures all context is included
-
-### How /execute-prp Works
-
-1. **Load Context**: Reads the entire PRP
-2. **Plan**: Creates detailed task list using TodoWrite
-3. **Execute**: Implements each component
-4. **Validate**: Runs tests and linting
-5. **Iterate**: Fixes any issues found
-6. **Complete**: Ensures all requirements met
-
-See `PRPs/EXAMPLE_multi_agent_prp.md` for a complete example of what gets generated.
-
-## Using Examples Effectively
-
-The `examples/` folder is **critical** for success. AI coding assistants perform much better when they can see patterns to follow.
-
-### What to Include in Examples
-
-1. **Code Structure Patterns**
-   - How you organize modules
-   - Import conventions
-   - Class/function patterns
-
-2. **Testing Patterns**
-   - Test file structure
-   - Mocking approaches
-   - Assertion styles
-
-3. **Integration Patterns**
-   - API client implementations
-   - Database connections
-   - Authentication flows
-
-4. **CLI Patterns**
-   - Argument parsing
-   - Output formatting
-   - Error handling
-
-### Example Structure
-
-```
-examples/
-├── README.md           # Explains what each example demonstrates
-├── cli.py             # CLI implementation pattern
-├── agent/             # Agent architecture patterns
-│   ├── agent.py      # Agent creation pattern
-│   ├── tools.py      # Tool implementation pattern
-│   └── providers.py  # Multi-provider pattern
-└── tests/            # Testing patterns
-    ├── test_agent.py # Unit test patterns
-    └── conftest.py   # Pytest configuration
+console.log(`Form created successfully!`);
+console.log(`Edit URL: ${result.editUrl}`);
+console.log(`View URL: ${result.viewUrl}`);
 ```
 
-## Best Practices
+### Advanced Form with Relationships
 
-### 1. Be Explicit in INITIAL.md
-- Don't assume the AI knows your preferences
-- Include specific requirements and constraints
-- Reference examples liberally
+```javascript
+// Create an employee registration form
+const result = await creator.createForm(`
+  Create an employee onboarding form:
+  - Personal info: first name, last name, birth date
+  - Contact: email, phone number
+  - Employment: position, salary, start date
+  - Department (dropdown connected to departments)
+  - Status (dropdown: Active, Inactive, Probation)
+`);
+```
 
-### 2. Provide Comprehensive Examples
-- More examples = better implementations
-- Show both what to do AND what not to do
-- Include error handling patterns
+## Development Guide
 
-### 3. Use Validation Gates
-- PRPs include test commands that must pass
-- AI will iterate until all validations succeed
-- This ensures working code on first try
+### Setting Up the Development Environment
 
-### 4. Leverage Documentation
-- Include official API docs
-- Add MCP server resources
-- Reference specific documentation sections
+```bash
+# Clone and install
+git clone https://github.com/your-org/ai-form-creator.git
+cd ai-form-creator
+npm install
 
-### 5. Customize CLAUDE.md
-- Add your conventions
-- Include project-specific rules
-- Define coding standards
+# Set up environment
+cp .env.example .env
+# Edit .env with your credentials
+
+# Run tests
+npm test
+
+# Start development
+npm run dev
+```
+
+### Implementing New Features
+
+This project uses Context Engineering for AI-assisted development:
+
+1. **Define Requirements**: Edit `INITIAL.md` with feature specifications
+2. **Generate PRP**: Run `/generate-prp INITIAL.md` in Claude Code
+3. **Execute Implementation**: Run `/execute-prp PRPs/feature-name.md`
+4. **Validate**: Test generated forms and API integration
+
+### Code Structure Guidelines
+
+- **Modular Design**: Separate concerns (generation, validation, API)
+- **Error Handling**: Comprehensive error messages and recovery
+- **Schema Compliance**: Always validate against DynForm requirements
+- **Testing**: Unit tests for all core functionality
+
+## API Reference
+
+### AIFormCreator Class
+
+```javascript
+class AIFormCreator {
+  constructor(options = {}) {
+    // Initialize with custom configuration
+  }
+
+  async createForm(instructions, options = {}) {
+    // Generate and submit form from natural language
+    // Returns: { success, formId, formName, editUrl, viewUrl, meta }
+  }
+
+  async validateForm(formStructure) {
+    // Validate DynForm JSON structure
+    // Returns: { valid, errors }
+  }
+}
+```
+
+### FormGenerator Class
+
+```javascript
+class FormGenerator {
+  parseInstructions(text) {
+    // Extract form requirements from natural language
+  }
+
+  generateFormStructure(requirements) {
+    // Create DynForm JSON structure
+  }
+
+  validateSchema(formStructure) {
+    // Ensure DynForm compliance
+  }
+}
+```
+
+### CreatorAPIClient Class
+
+```javascript
+class CreatorAPIClient {
+  async authenticate() {
+    // OAuth authentication
+  }
+
+  async submitForm(formStructure) {
+    // Submit form to Creator API
+  }
+}
+```
+
+## Troubleshooting
+
+### Common Issues
+
+**Authentication Errors**
+```
+Error: OAuth authentication failed
+```
+- Verify `CREATOR_AUTH_BASIC` is correctly base64 encoded
+- Check token URL is accessible
+- Ensure credentials are valid
+
+**Form Validation Errors**
+```
+Error: Invalid field name format
+```
+- Field names must be UPPERCASE with underscores
+- Connection fields must start with "ID_"
+- No special characters except underscores
+
+**API Submission Errors**
+```
+Error: Form submission failed
+```
+- Ensure using multipart/form-data, not JSON
+- Check all required headers are included
+- Verify form structure follows DynForm schema
+
+### Debug Mode
+
+Enable debug logging:
+```javascript
+const creator = new AIFormCreator({ debug: true });
+```
+
+This will log:
+- Generated form JSON structure
+- API requests and responses
+- Validation errors and warnings
+
+### Field Type Mapping
+
+| User Description | DynForm Type | Properties |
+|-----------------|--------------|------------|
+| "name", "title" | `text` | Basic text input |
+| "email", "email address" | `email` | Email validation |
+| "phone", "number" | `text` with pattern | Phone formatting |
+| "age", "count", "amount" | `number` | Numeric input |
+| "date", "birthday" | `date` | Date picker |
+| "description", "notes" | `textarea` | Multi-line text |
+| "choose", "select" | `dropdownlist` | Single selection |
+| "multiple", "categories" | `multiselect` | Multiple selection |
+| "agree", "confirm" | `checkbox` | Boolean value |
+
+### Support
+
+For issues and support:
+
+1. **Check Documentation**: Review `docs/formMCP.md` for schema details
+2. **Validate Schema**: Use online JSON validators against DynForm schema
+3. **Test API**: Use tools like Postman to test Creator API directly
+4. **Enable Debugging**: Use debug mode for detailed logging
+5. **Check Examples**: Compare with `examples/app-new-form.json`
+
+## Performance Optimization
+
+### Form Generation Speed
+- **Caching**: Cache frequently used field patterns
+- **Parallel Processing**: Generate multiple fields concurrently
+- **Schema Validation**: Pre-validate common patterns
+
+### API Integration Efficiency
+- **Token Caching**: Reuse OAuth tokens until expiration
+- **Request Pooling**: Batch multiple form submissions
+- **Error Recovery**: Implement exponential backoff for retries
+
+### Memory Management
+- **Stream Processing**: Handle large form definitions efficiently
+- **Cleanup**: Dispose of temporary objects after generation
+- **Monitoring**: Track memory usage in production
+
+## Contributing
+
+1. **Fork the Repository**: Create your own fork for development
+2. **Create Feature Branch**: `git checkout -b feature/new-field-type`
+3. **Follow Code Standards**: Use ESLint and Prettier configurations
+4. **Add Tests**: Include unit tests for new functionality
+5. **Update Documentation**: Add examples and API documentation
+6. **Submit Pull Request**: Include detailed description of changes
+
+### Development Workflow
+
+```bash
+# Set up development environment
+npm run dev:setup
+
+# Run tests continuously
+npm run test:watch
+
+# Validate code quality
+npm run lint && npm run test
+
+# Generate documentation
+npm run docs:generate
+```
+
+## License
+
+MIT License - see [LICENSE](LICENSE) file for details.
 
 ## Resources
 
-- [Claude Code Documentation](https://docs.anthropic.com/en/docs/claude-code)
-- [Context Engineering Best Practices](https://www.philschmid.de/context-engineering)
+- **DynForm Documentation**: Complete schema reference in `docs/formMCP.md`
+- **Creator API Guide**: Integration instructions in `docs/SendToCreatorAPI.md`
+- **Example Forms**: Reference implementations in `examples/`
+- **Context Engineering**: This project uses AI-assisted development with comprehensive context
+
+## Changelog
+
+### v1.0.0
+- Initial release with basic form generation
+- Creator API integration
+- DynForm schema compliance
+- Natural language processing for form requirements
+
+### Roadmap
+
+- **v1.1.0**: Advanced field types (file upload, rich text)
+- **v1.2.0**: Form templates and presets
+- **v1.3.0**: Batch form generation
+- **v2.0.0**: Visual form designer integration

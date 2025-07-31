@@ -1,15 +1,16 @@
 ## FEATURE:
 
-[Insert your feature here]
+A felhasználó instrukciója alapján űrlapot hozunk létre és elküldjök a creator app végpontjának.
 
 ## EXAMPLES:
 
-[Provide and explain examples that you have in the `examples/` folder]
+Az `examples/` mappában találunk egy app-new-form.json mintát, ami egy valid űrlap leírót tartalmaz.
 
 ## DOCUMENTATION:
 
-[List out any documentation (web pages, sources for an MCP server like Crawl4AI RAG, etc.) that will need to be referenced during development]
+Az `docs/` mappában találunk egy formMCP.md file-t, amiben egy működő AI prompt található, ami minden információt tartalmaz, ami ahhoz kell, hogy létrehozzuk az űrlap leíró json file-ját.
+Van még egy file, a SendToCreatorAPI.md, ami pedig pontosan leírja, hogy kell elküldeni az így elkészült űrlapot a creator api végpontnak.
 
 ## OTHER CONSIDERATIONS:
 
-[Any other considerations or specific requirements - great place to include gotchas that you see AI coding assistants miss with your projects a lot]
+Készítsünk szabályrendszer, amely pontosan definiálja a folyamatot, hogy ne kelljen elvileg minden egyes alkalommal minden mintát és instrukcióhalmazt újra értelmezni.
